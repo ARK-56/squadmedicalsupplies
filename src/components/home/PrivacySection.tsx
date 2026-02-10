@@ -13,7 +13,7 @@ const PrivacySection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="mb-3 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
+            <span className="mb-3 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase text-primary">
               Privacy
             </span>
             <h2 className="font-display text-3xl font-bold text-foreground md:text-4xl">

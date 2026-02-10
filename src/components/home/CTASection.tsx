@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import ContactDialog from "@/components/ContactDialog";
 
 const CTASection = () => {
   return (
@@ -16,10 +17,7 @@ const CTASection = () => {
           {/* Avatars */}
           <div className="mb-4 flex items-center justify-center -space-x-2">
             {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-card bg-primary/20 text-xs font-semibold text-primary"
-              >
+              <div key={i} className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-card bg-primary/20 text-xs font-semibold text-primary">
                 {String.fromCharCode(64 + i)}
               </div>
             ))}
@@ -33,18 +31,14 @@ const CTASection = () => {
             Comprehensive, compassionate healthcare services designed to support your family's well-being at every stage of life.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/equipment"
-              className="rounded-lg bg-primary px-7 py-3.5 font-display text-sm font-semibold text-primary-foreground shadow-elevated transition-all hover:opacity-90"
-            >
+            <Link to="/equipment" className="rounded-lg bg-primary px-7 py-3.5 font-display text-sm font-semibold text-primary-foreground shadow-elevated transition-all hover:opacity-90">
               Browse Equipment ↗
             </Link>
-            <Link
-              to="/contact"
-              className="rounded-lg border border-border bg-card px-7 py-3.5 font-display text-sm font-semibold text-foreground transition-all hover:bg-secondary"
-            >
-              Contact Us ↗
-            </Link>
+            <ContactDialog>
+              <button className="rounded-lg border border-border bg-card px-7 py-3.5 font-display text-sm font-semibold text-foreground transition-all hover:bg-secondary">
+                Contact Us ↗
+              </button>
+            </ContactDialog>
           </div>
         </motion.div>
       </div>

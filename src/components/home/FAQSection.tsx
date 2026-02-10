@@ -34,7 +34,7 @@ const FAQSection = () => {
         <div className="grid gap-12 lg:grid-cols-2">
           {/* Left */}
           <div>
-            <span className="mb-3 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
+            <span className="mb-3 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase text-primary">
               FAQs
             </span>
             <h2 className="font-display text-3xl font-bold text-foreground md:text-4xl">
