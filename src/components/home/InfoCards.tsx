@@ -32,9 +32,9 @@ const features = [
 const InfoCards = () => {
   return (
     <section id="how-it-works" className="bg-card py-20">
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="mx-auto w-[80%] max-w-7xl px-4">
         <div className="mb-12 text-center">
-          <span className="mb-3 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
+          <span className="mb-3 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase text-primary">
             Why Squad Medical
           </span>
           <h2 className="font-display text-3xl font-bold text-foreground md:text-4xl">

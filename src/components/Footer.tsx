@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import ContactDialog from "./ContactDialog";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -10,22 +12,12 @@ const Footer = () => {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
-            <div className="mb-4 flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-                <span className="text-lg font-bold text-primary-foreground">S</span>
-              </div>
-              <div>
-                <p className="font-display text-sm font-bold leading-tight">SQUAD MEDICAL</p>
-                <p className="text-[10px] tracking-wider opacity-70">SUPPLIES</p>
-              </div>
+            <div className="mb-4">
+              <img src={logo} alt="Squad Medical Supplies" className="h-12 w-auto brightness-0 invert" />
             </div>
             <div className="mt-6 flex gap-3">
               {["X", "in", "f", "ig"].map((icon) => (
-                <a
-                  key={icon}
-                  href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-navy-foreground/20 text-xs font-medium opacity-70 transition-opacity hover:opacity-100"
-                >
+                <a key={icon} href="#" className="flex h-9 w-9 items-center justify-center rounded-full border border-navy-foreground/20 text-xs font-medium opacity-70 transition-opacity hover:opacity-100">
                   {icon}
                 </a>
               ))}
@@ -44,7 +36,11 @@ const Footer = () => {
           <div>
             <h4 className="mb-4 text-sm font-semibold">Help</h4>
             <ul className="space-y-2.5 text-sm opacity-70">
-              <li><Link to="/contact" className="hover:opacity-100">Contact Us</Link></li>
+              <li>
+                <ContactDialog>
+                  <button className="hover:opacity-100">Contact Us</button>
+                </ContactDialog>
+              </li>
               <li><a href="#faq" className="hover:opacity-100">FAQ</a></li>
               <li><a href="#" className="hover:opacity-100">Shipping Info</a></li>
             </ul>
@@ -55,31 +51,20 @@ const Footer = () => {
             <h4 className="mb-2 text-sm font-semibold">Join our newsletter</h4>
             <p className="mb-4 text-xs opacity-60">Stay up to date on new products and offers</p>
             <div className="flex overflow-hidden rounded-lg border border-navy-foreground/20">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email here"
-                className="flex-1 bg-transparent px-3 py-2 text-sm text-navy-foreground placeholder:opacity-40 focus:outline-none"
-              />
-              <button className="bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
-                Join
-              </button>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email here"
+                className="flex-1 bg-transparent px-3 py-2 text-sm text-navy-foreground placeholder:opacity-40 focus:outline-none" />
+              <button className="bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">Join</button>
             </div>
-            <p className="mt-2 text-[10px] opacity-40">
-              By subscribing you agree to our Privacy Policy.
-            </p>
+            <p className="mt-2 text-[10px] opacity-40">By subscribing you agree to our Privacy Policy.</p>
           </div>
         </div>
 
-        {/* Zigzag divider */}
         <div className="my-10 flex w-full items-center overflow-hidden">
           <svg viewBox="0 0 1200 30" className="w-full opacity-15" preserveAspectRatio="none">
             <path d="M0 15 L30 0 L60 15 L90 0 L120 15 L150 0 L180 15 L210 0 L240 15 L270 0 L300 15 L330 0 L360 15 L390 0 L420 15 L450 0 L480 15 L510 0 L540 15 L570 0 L600 15 L630 0 L660 15 L690 0 L720 15 L750 0 L780 15 L810 0 L840 15 L870 0 L900 15 L930 0 L960 15 L990 0 L1020 15 L1050 0 L1080 15 L1110 0 L1140 15 L1170 0 L1200 15" fill="none" stroke="currentColor" strokeWidth="2" />
           </svg>
         </div>
 
-        {/* Bottom */}
         <div className="flex flex-col items-center justify-between gap-4 text-xs opacity-50 md:flex-row">
           <p>© 2025 Squad Medical Supplies. All rights reserved.</p>
           <div className="flex gap-4">
@@ -89,7 +74,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Disclaimer */}
         <p className="mt-6 text-[9px] uppercase leading-relaxed opacity-30">
           SQUAD MEDICAL SUPPLIES PROVIDES ACCESS TO DURABLE MEDICAL EQUIPMENT THROUGH CERTIFIED MANUFACTURERS AND DISTRIBUTORS. IT IS NOT A MEDICAL PROVIDER AND DOES NOT OFFER MEDICAL ADVICE, DIAGNOSIS, OR TREATMENT. ALL PRODUCT INFORMATION IS FOR INFORMATIONAL PURPOSES ONLY AND SHOULD BE REVIEWED WITH A LICENSED HEALTHCARE PROFESSIONAL. PRODUCT AVAILABILITY AND SHIPPING TIMES MAY VARY BY LOCATION AND INDIVIDUAL CIRCUMSTANCES. BY SUBMITTING YOUR CONTACT INFORMATION, YOU CONSENT TO RECEIVE COMMUNICATIONS FROM SQUAD MEDICAL SUPPLIES.
         </p>
