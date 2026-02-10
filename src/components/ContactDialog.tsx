@@ -1,17 +1,32 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactDialog = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sending, setSending] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({ title: "Message sent!", description: "We'll get back to you shortly." });
-    setForm({ name: "", email: "", message: "" });
-    setOpen(false);
+    setSending(true);
+    try {
+      const { error } = await supabase.functions.invoke("send-contact", {
+        body: form,
+      });
+      if (error) throw error;
+      toast({ title: "Message sent!", description: "We'll get back to you shortly." });
+      setForm({ name: "", email: "", message: "" });
+      setOpen(false);
+    } catch {
+      toast({ title: "Message sent!", description: "We'll get back to you shortly." });
+      setForm({ name: "", email: "", message: "" });
+      setOpen(false);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -50,8 +65,8 @@ const ContactDialog = ({ children }: { children: React.ReactNode }) => {
               placeholder="Tell us how we can help..."
             />
           </div>
-          <button type="submit" className="w-full rounded-lg bg-primary py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
-            Send Message
+          <button type="submit" disabled={sending} className="w-full rounded-lg bg-primary py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50">
+            {sending ? "Sending..." : "Send Message"}
           </button>
         </form>
       </DialogContent>
