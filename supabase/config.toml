@@ -1,1 +1,4 @@
 project_id = "algfpqgtftjmrcxceyjp"
+
+[functions.validate-order]
+verify_jwt = false
