@@ -21,7 +21,7 @@ export interface Product {
 
 export const products: Product[] = [
   {
-    id: "1",
+    id: "3fcbc09d-615a-4197-ade5-8a36ce3c4503",
     name: "ProLite Ultra Wheelchair",
     price: 1257,
     originalPrice: 1635,
@@ -41,7 +41,7 @@ export const products: Product[] = [
     isSale: true,
   },
   {
-    id: "2",
+    id: "02be18b0-56b8-44f3-a17b-a85acb9c4efb",
     name: "MedCare Hospital Bed",
     price: 2897,
     originalPrice: 3450,
@@ -59,7 +59,7 @@ export const products: Product[] = [
     isSale: true,
   },
   {
-    id: "3",
+    id: "beab45b7-d83b-4976-b02b-01e2c4ffea6b",
     name: "StrideSafe Rollator Walker",
     price: 389,
     image: "/product-walker.jpg",
@@ -76,7 +76,7 @@ export const products: Product[] = [
     description: "Four-wheel rollator with padded seat, storage basket, and adjustable height handles.",
   },
   {
-    id: "4",
+    id: "02e02e2f-4fdf-4a95-a206-bc3cba2ad1ec",
     name: "AirSense CPAP Machine",
     price: 1442,
     originalPrice: 1875,
@@ -94,7 +94,7 @@ export const products: Product[] = [
     isSale: true,
   },
   {
-    id: "5",
+    id: "47c48a65-a8d9-4770-b358-c6dc91752b87",
     name: "OxyFlow Concentrator",
     price: 1861,
     originalPrice: 2795,
@@ -112,7 +112,7 @@ export const products: Product[] = [
     isSale: true,
   },
   {
-    id: "6",
+    id: "9fb1d88f-e4df-434e-a08b-c17e34ded751",
     name: "FlexRide Knee Scooter",
     price: 279,
     image: "/product-knee-scooter.jpg",
