@@ -5,6 +5,11 @@ import Layout from "@/components/Layout";
 import CTASection from "@/components/home/CTASection";
 import { blogPosts } from "@/data/blogPosts";
 
+const renderBoldText = (text: string): React.ReactNode => {
+  const parts = text.split(/\*\*(.*?)\*\*/g);
+  return parts.map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part));
+};
+
 const BlogPost = () => {
   const { id } = useParams();
   const post = blogPosts.find((p) => p.id === id);
@@ -61,7 +66,7 @@ const BlogPost = () => {
                   return (
                     <ul key={i} className="mb-4 list-disc space-y-2 pl-6">
                       {items.map((item, j) => (
-                        <li key={j} dangerouslySetInnerHTML={{ __html: item.replace(/^- /, "").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") }} />
+                        <li key={j}>{renderBoldText(item.replace(/^- /, ""))}</li>
                       ))}
                     </ul>
                   );
@@ -71,12 +76,12 @@ const BlogPost = () => {
                   return (
                     <ol key={i} className="mb-4 list-decimal space-y-2 pl-6">
                       {items.map((item, j) => (
-                        <li key={j} dangerouslySetInnerHTML={{ __html: item.replace(/^\d+\.\s*/, "").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") }} />
+                        <li key={j}>{renderBoldText(item.replace(/^\d+\.\s*/, ""))}</li>
                       ))}
                     </ol>
                   );
                 }
-                return <p key={i} className="mb-4 leading-relaxed" dangerouslySetInnerHTML={{ __html: paragraph.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") }} />;
+                return <p key={i} className="mb-4 leading-relaxed">{renderBoldText(paragraph)}</p>;
               })}
             </div>
           </div>
