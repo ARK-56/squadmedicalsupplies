@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
 import CTASection from "@/components/home/CTASection";
-import { ShieldCheck, Truck, HeartHandshake, Award, Target, Lightbulb, Users, Clock, MapPin, Phone, Mail } from "lucide-react";
+import { ShieldCheck, Truck, HeartHandshake, Award, Target, Lightbulb, MapPin, Phone, Mail } from "lucide-react";
 import logo from "@/assets/logo.avif";
 
 const values = [
@@ -27,13 +27,13 @@ const timeline = [
   { year: "2025", title: "Smart DME Initiative", description: "Pioneered connected device programs for remote patient monitoring and compliance tracking across respiratory and mobility equipment." },
 ];
 
-const team = [
-  { name: "David Reynolds", role: "CEO & Founder", bio: "25+ years in healthcare supply chain management. Former VP at Medline Industries." },
-  { name: "Dr. Sarah Mitchell", role: "Chief Clinical Officer", bio: "Board-certified in Physical Medicine & Rehabilitation. Published researcher in assistive technology." },
-  { name: "James Rodriguez", role: "VP of Respiratory Services", bio: "Registered Respiratory Therapist with 18 years of clinical and industry experience." },
-  { name: "Linda Chen", role: "Director of Compliance", bio: "Certified Professional Coder with expertise in Medicare/Medicaid DME billing and regulatory compliance." },
-  { name: "Maria Santos", role: "Director of Patient Services", bio: "Licensed Occupational Therapist specializing in home modification and assistive device evaluation." },
-  { name: "Michael Torres", role: "VP of Operations", bio: "MBA in Healthcare Administration. Led logistics operations for a Fortune 500 medical device company." },
+const serviceRegions = [
+  { name: "Texas & Gulf Coast", states: ["Texas", "Louisiana", "Mississippi", "Alabama"], highlight: true },
+  { name: "Southeast", states: ["Florida", "Georgia", "South Carolina", "North Carolina", "Tennessee"] },
+  { name: "Midwest", states: ["Illinois", "Ohio", "Michigan", "Indiana", "Wisconsin"] },
+  { name: "Northeast", states: ["New York", "New Jersey", "Pennsylvania", "Connecticut", "Massachusetts"] },
+  { name: "West Coast", states: ["California", "Oregon", "Washington", "Arizona", "Nevada"] },
+  { name: "Mountain & Plains", states: ["Colorado", "Utah", "Montana", "Kansas", "Nebraska"] },
 ];
 
 const certifications = [
@@ -148,23 +148,28 @@ const About = () => {
         </div>
       </section>
 
-      {/* Leadership Team */}
+      {/* Service Areas */}
       <section className="py-16">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="mb-10 text-center">
-            <span className="mb-3 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase text-primary">Leadership</span>
-            <h2 className="font-display text-3xl font-bold text-foreground">Our Team</h2>
-            <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">Industry veterans dedicated to advancing patient care through quality equipment and exceptional service.</p>
+            <span className="mb-3 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase text-primary">Coverage</span>
+            <h2 className="font-display text-3xl font-bold text-foreground">Service Areas</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">Serving all 50 states with regional fulfillment centers and white-glove delivery partnerships.</p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {team.map((member, i) => (
-              <motion.div key={member.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }} className="flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center shadow-card">
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-                  <Users className="h-6 w-6 text-primary" />
+            {serviceRegions.map((region, i) => (
+              <motion.div key={region.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }}
+                className={`rounded-xl border p-6 shadow-card ${region.highlight ? "border-primary bg-primary/5" : "border-border bg-card"}`}>
+                <div className="mb-3 flex items-center gap-2">
+                  <MapPin className={`h-5 w-5 ${region.highlight ? "text-primary" : "text-muted-foreground"}`} />
+                  <h3 className="font-display text-lg font-semibold text-foreground">{region.name}</h3>
+                  {region.highlight && <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold uppercase text-primary-foreground">HQ</span>}
                 </div>
-                <h3 className="font-display text-lg font-semibold text-foreground">{member.name}</h3>
-                <p className="text-sm font-medium text-primary">{member.role}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{member.bio}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {region.states.map((state) => (
+                    <span key={state} className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">{state}</span>
+                  ))}
+                </div>
               </motion.div>
             ))}
           </div>
