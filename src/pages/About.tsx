@@ -109,7 +109,7 @@ const About = () => {
             <h2 className="font-display text-3xl font-bold text-foreground">Company Timeline</h2>
           </div>
           <div className="relative mx-auto max-w-3xl">
-            <div className="absolute left-4 top-0 h-full w-0.5 bg-border md:left-1/2 md:-translate-x-px" />
+            <div className="absolute left-4 top-0 h-full w-0.5 bg-border md:left-1/2 md:ml-[-1px]" />
             {timeline.map((item, i) => (
               <motion.div
                 key={item.year}
@@ -119,7 +119,7 @@ const About = () => {
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 className={`relative mb-8 pl-12 md:w-1/2 md:pl-0 ${i % 2 === 0 ? "md:pr-12 md:text-right" : "md:ml-auto md:pl-12"}`}
               >
-                <div className={`absolute left-2.5 top-1.5 h-3 w-3 rounded-full bg-primary md:left-auto ${i % 2 === 0 ? "md:right-[-6.5px]" : "md:left-[-6.5px]"}`} />
+                <div className={`absolute left-[10px] top-1.5 h-3 w-3 rounded-full border-2 border-primary bg-background ${i % 2 === 0 ? "md:left-auto md:right-[-7px]" : "md:left-[-7px]"}`} />
                 <span className="text-sm font-bold text-primary">{item.year}</span>
                 <h3 className="font-display text-lg font-semibold text-foreground">{item.title}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{item.description}</p>
