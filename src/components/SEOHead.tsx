@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 const PAGE_TITLES: Record<string, { title: string; description: string }> = {
   "/": {
-    title: "Squad Medical Supplies | Premium DME Equipment",
+    title: "Squad Medical Supplies | Your GO-TO Medical Supplier",
     description: "Premium FDA-certified durable medical equipment. Wheelchairs, hospital beds, CPAP machines, oxygen concentrators, and more delivered nationwide.",
   },
   "/equipment": {
