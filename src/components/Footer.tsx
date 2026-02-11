@@ -38,7 +38,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="mb-4">
-              <img src={logoWhite} alt="Squad Medical Supplies" className="h-32 w-auto" />
+              <img src={logoWhite} alt="Squad Medical Supplies" className="h-32 w-auto" loading="lazy" decoding="async" />
             </div>
             <div className="mt-6 flex gap-3">
               {[

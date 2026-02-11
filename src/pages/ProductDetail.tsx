@@ -49,7 +49,7 @@ const ProductDetail = () => {
         <div className="grid gap-8 md:gap-12 lg:grid-cols-2">
           {/* Image */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="overflow-hidden rounded-2xl bg-muted">
-            <img src={product.image} alt={product.name} className="h-full w-full object-cover" loading="lazy" />
+            <img src={product.image} alt={product.name} className="h-full w-full object-cover" loading="lazy" decoding="async" />
           </motion.div>
 
           {/* Details */}
