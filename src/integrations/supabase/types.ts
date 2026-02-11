@@ -65,6 +65,7 @@ export type Database = {
           medicare_id: string
           message: string | null
           phone: string
+          prescription_url: string | null
           product_id: string | null
           product_name: string | null
           status: string
@@ -82,6 +83,7 @@ export type Database = {
           medicare_id: string
           message?: string | null
           phone: string
+          prescription_url?: string | null
           product_id?: string | null
           product_name?: string | null
           status?: string
@@ -99,6 +101,7 @@ export type Database = {
           medicare_id?: string
           message?: string | null
           phone?: string
+          prescription_url?: string | null
           product_id?: string | null
           product_name?: string | null
           status?: string
