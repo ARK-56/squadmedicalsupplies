@@ -11,7 +11,22 @@ serve(async (req) => {
   }
 
   try {
-    const { name, email, message } = await req.json();
+    const { name, email, message, website, _ts } = await req.json();
+
+    // Honeypot: if "website" field is filled, it's a bot
+    if (website) {
+      // Return fake success to not alert bots
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Timestamp check: reject if form submitted in under 2 seconds (bot speed)
+    if (_ts && typeof _ts === "number" && Date.now() - _ts < 2000) {
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     if (!name || !email || !message) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
