@@ -4,7 +4,7 @@ import { Linkedin, Facebook, Instagram } from "lucide-react";
 import ContactDialog from "./ContactDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.avif";
 
 const Footer = () => {
   const [email, setEmail] = useState("");

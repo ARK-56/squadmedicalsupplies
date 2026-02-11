@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
 import CTASection from "@/components/home/CTASection";
 import { ShieldCheck, Truck, HeartHandshake, Award, Target, Lightbulb, Users, Clock, MapPin, Phone, Mail } from "lucide-react";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.avif";
 
 const values = [
   { icon: ShieldCheck, title: "Quality Assurance", description: "Every product in our catalog is FDA-certified and rigorously tested to meet the highest standards of safety and reliability." },
