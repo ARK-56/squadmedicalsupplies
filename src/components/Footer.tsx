@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <footer className="bg-navy text-navy-foreground">
       <div className="container mx-auto px-4 py-16 lg:px-8">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
             <div className="mb-4">
@@ -31,6 +31,7 @@ const Footer = () => {
               <li><Link to="/about" className="hover:opacity-100">Company Profile</Link></li>
               <li><Link to="/equipment" className="hover:opacity-100">DME Equipment</Link></li>
               <li><Link to="/blog" className="hover:opacity-100">Blog</Link></li>
+              <li><Link to="/case-studies" className="hover:opacity-100">Case Studies</Link></li>
             </ul>
           </div>
           <div>
@@ -41,8 +42,8 @@ const Footer = () => {
                   <button className="hover:opacity-100">Contact Us</button>
                 </ContactDialog>
               </li>
-              <li><a href="#faq" className="hover:opacity-100">FAQ</a></li>
-              <li><a href="#" className="hover:opacity-100">Shipping Info</a></li>
+              <li><a href="/#faq" className="hover:opacity-100">FAQ</a></li>
+              <li><Link to="/about" className="hover:opacity-100">Shipping Info</Link></li>
             </ul>
           </div>
 
@@ -68,8 +69,8 @@ const Footer = () => {
         <div className="flex flex-col items-center justify-between gap-4 text-xs opacity-50 md:flex-row">
           <p>© 2025 Squad Medical Supplies. All rights reserved.</p>
           <div className="flex gap-4">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <Link to="/about">Privacy Policy</Link>
+            <Link to="/about">Terms of Service</Link>
             <a href="#">Cookie Settings</a>
           </div>
         </div>

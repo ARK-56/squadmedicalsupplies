@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, X } from "lucide-react";
+import ContactDialog from "@/components/ContactDialog";
 
 const faqs = [
   {
@@ -40,9 +41,11 @@ const FAQSection = () => {
             <h2 className="font-display text-3xl font-bold text-foreground md:text-4xl">
               Have questions?<br />We're here to help.
             </h2>
-            <button className="mt-6 rounded-lg border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-secondary">
-              View all FAQs
-            </button>
+            <ContactDialog>
+              <button className="mt-6 rounded-lg border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-secondary">
+                Contact Us
+              </button>
+            </ContactDialog>
           </div>
 
           {/* Right */}
