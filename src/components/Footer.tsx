@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Linkedin, Facebook, Instagram } from "lucide-react";
 import ContactDialog from "./ContactDialog";
 import logo from "@/assets/logo.png";
 
@@ -16,9 +17,13 @@ const Footer = () => {
               <img src={logo} alt="Squad Medical Supplies" className="h-12 w-auto brightness-0 invert" />
             </div>
             <div className="mt-6 flex gap-3">
-              {["X", "in", "f", "ig"].map((icon) => (
-                <a key={icon} href="#" className="flex h-9 w-9 items-center justify-center rounded-full border border-navy-foreground/20 text-xs font-medium opacity-70 transition-opacity hover:opacity-100">
-                  {icon}
+              {[
+                { icon: Linkedin, label: "LinkedIn" },
+                { icon: Facebook, label: "Facebook" },
+                { icon: Instagram, label: "Instagram" },
+              ].map(({ icon: Icon, label }) => (
+                <a key={label} href="#" aria-label={label} className="flex h-9 w-9 items-center justify-center rounded-full border border-navy-foreground/20 opacity-70 transition-opacity hover:opacity-100">
+                  <Icon className="h-4 w-4" />
                 </a>
               ))}
             </div>
