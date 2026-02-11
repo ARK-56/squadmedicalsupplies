@@ -20,6 +20,16 @@ serve(async (req) => {
       });
     }
 
+    if (typeof name !== "string" || typeof email !== "string" || typeof message !== "string" ||
+        name.length > 100 || email.length > 255 || message.length > 2000) {
+      return new Response(JSON.stringify({ error: "Invalid input" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+
     // Use Resend API via LOVABLE_API_KEY or fallback to logging
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 
@@ -33,13 +43,13 @@ serve(async (req) => {
         body: JSON.stringify({
           from: "Squad Medical <onboarding@resend.dev>",
           to: ["submission@squadmedicalsupplies.com"],
-          subject: `New Contact Form: ${name}`,
+          subject: `New Contact Form: ${esc(name)}`,
           html: `
             <h2>New Contact Form Submission</h2>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Name:</strong> ${esc(name)}</p>
+            <p><strong>Email:</strong> ${esc(email)}</p>
             <p><strong>Message:</strong></p>
-            <p>${message}</p>
+            <p>${esc(message)}</p>
           `,
           reply_to: email,
         }),
