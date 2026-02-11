@@ -11,8 +11,8 @@ const HeroSection = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
+            transition={{ duration: 0.7 }}>
+
             <span className="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase text-primary">
               Welcome to Squad Medical
             </span>
@@ -26,14 +26,14 @@ const HeroSection = () => {
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 to="/equipment"
-                className="rounded-lg bg-primary px-7 py-3.5 font-display text-sm font-semibold text-primary-foreground shadow-elevated transition-all hover:opacity-90"
-              >
+                className="rounded-lg bg-primary px-7 py-3.5 font-display text-sm font-semibold text-primary-foreground shadow-elevated transition-all hover:opacity-90">
+
                 Browse Equipment
               </Link>
               <a
                 href="#how-it-works"
-                className="rounded-lg border border-border bg-card px-7 py-3.5 font-display text-sm font-semibold text-foreground transition-all hover:bg-secondary"
-              >
+                className="rounded-lg border border-border bg-card px-7 py-3.5 font-display text-sm font-semibold text-foreground transition-all hover:bg-secondary">
+
                 How It Works
               </a>
             </div>
@@ -58,16 +58,16 @@ const HeroSection = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative"
-          >
+            className="relative">
+
             <div className="overflow-hidden rounded-2xl shadow-elevated">
               <img
-                src={heroImage}
+
                 alt="Premium medical equipment - wheelchair and hospital bed in clinical setting"
                 className="h-full w-full object-cover"
                 fetchPriority="high"
-                decoding="async"
-              />
+                decoding="async" src="/lovable-uploads/3ee289f9-312a-46af-8bdb-4054f74b2912.webp" />
+
             </div>
             {/* Floating badge */}
             <div className="absolute -bottom-4 -left-4 rounded-xl bg-card p-4 shadow-card-hover">
@@ -77,8 +77,8 @@ const HeroSection = () => {
           </motion.div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default HeroSection;
