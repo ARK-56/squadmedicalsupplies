@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, LogOut, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
-import CartDrawer from "./CartDrawer";
 import ContactDialog from "./ContactDialog";
 import logo from "@/assets/logo.avif";
 
@@ -52,7 +51,6 @@ const Header = () => {
 
         {/* Right side */}
         <div className="hidden items-center gap-2 lg:flex">
-          <CartDrawer />
           {user ? (
             <div className="flex items-center gap-2">
               {isAdmin && (
@@ -71,7 +69,7 @@ const Header = () => {
 
         {/* Mobile Toggle */}
         <div className="flex items-center gap-2 lg:hidden">
-          <CartDrawer />
+          
           <button onClick={() => setMobileOpen(!mobileOpen)} className="rounded-md p-2 text-foreground" aria-label="Toggle menu">
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>

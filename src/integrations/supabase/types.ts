@@ -52,6 +52,60 @@ export type Database = {
           },
         ]
       }
+      inquiries: {
+        Row: {
+          address: string
+          created_at: string
+          dob_day: number
+          dob_month: number
+          dob_year: number
+          first_name: string
+          id: string
+          last_name: string
+          medicare_id: string
+          message: string | null
+          phone: string
+          product_id: string | null
+          product_name: string | null
+          status: string
+          zip_code: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          dob_day: number
+          dob_month: number
+          dob_year: number
+          first_name: string
+          id?: string
+          last_name: string
+          medicare_id: string
+          message?: string | null
+          phone: string
+          product_id?: string | null
+          product_name?: string | null
+          status?: string
+          zip_code: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          dob_day?: number
+          dob_month?: number
+          dob_year?: number
+          first_name?: string
+          id?: string
+          last_name?: string
+          medicare_id?: string
+          message?: string | null
+          phone?: string
+          product_id?: string | null
+          product_name?: string | null
+          status?: string
+          zip_code?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           created_at: string

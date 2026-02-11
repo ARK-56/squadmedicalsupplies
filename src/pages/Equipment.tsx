@@ -18,7 +18,7 @@ const ITEMS_PER_PAGE = 10;
 const Equipment = () => {
   const [showFilters, setShowFilters] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
+  
   const [inStockOnly, setInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState("featured");
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,17 +26,14 @@ const Equipment = () => {
   const filtered = useMemo(() => {
     let result = products.filter((p) => {
       if (selectedCategory !== "All" && p.category !== selectedCategory) return false;
-      if (p.price < priceRange[0] || p.price > priceRange[1]) return false;
       if (inStockOnly && !p.inStock) return false;
       return true;
     });
 
-    if (sortBy === "price-low") result.sort((a, b) => a.price - b.price);
-    if (sortBy === "price-high") result.sort((a, b) => b.price - a.price);
     if (sortBy === "rating") result.sort((a, b) => b.rating - a.rating);
 
     return result;
-  }, [selectedCategory, priceRange, inStockOnly, sortBy]);
+  }, [selectedCategory, inStockOnly, sortBy]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
   const safeCurrentPage = Math.min(currentPage, totalPages);
@@ -46,7 +43,7 @@ const Equipment = () => {
   );
 
   // Reset page when filters change
-  useMemo(() => setCurrentPage(1), [selectedCategory, priceRange, inStockOnly, sortBy]);
+  useMemo(() => setCurrentPage(1), [selectedCategory, inStockOnly, sortBy]);
 
   return (
     <Layout>
@@ -73,8 +70,6 @@ const Equipment = () => {
               className="rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground"
             >
               <option value="featured">Featured</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
               <option value="rating">Top Rated</option>
             </select>
             <span className="text-sm text-muted-foreground">
@@ -112,23 +107,6 @@ const Equipment = () => {
                         </span>
                       </label>
                     ))}
-                  </div>
-                </div>
-
-                {/* Price */}
-                <div>
-                  <h3 className="mb-3 text-sm font-semibold text-foreground">Price</h3>
-                  <input
-                    type="range"
-                    min={0}
-                    max={5000}
-                    value={priceRange[1]}
-                    onChange={(e) => setPriceRange([0, Number(e.target.value)])}
-                    className="w-full accent-primary"
-                  />
-                  <div className="mt-1 flex justify-between text-xs text-muted-foreground">
-                    <span>$0</span>
-                    <span>${priceRange[1].toLocaleString()}</span>
                   </div>
                 </div>
 

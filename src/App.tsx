@@ -10,14 +10,12 @@ import Index from "./pages/Index";
 import Equipment from "./pages/Equipment";
 import ProductDetail from "./pages/ProductDetail";
 import Auth from "./pages/Auth";
-import Checkout from "./pages/Checkout";
 import Admin from "./pages/Admin";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import CaseStudies from "./pages/CaseStudies";
 import CaseStudyDetail from "./pages/CaseStudyDetail";
 import About from "./pages/About";
-import PaymentSuccess from "./pages/PaymentSuccess";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,8 +34,6 @@ const App = () => (
               <Route path="/equipment" element={<Equipment />} />
               <Route path="/equipment/:id" element={<ProductDetail />} />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/payment-success" element={<PaymentSuccess />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
