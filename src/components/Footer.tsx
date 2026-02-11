@@ -4,7 +4,7 @@ import { Linkedin, Facebook, Instagram } from "lucide-react";
 import ContactDialog from "./ContactDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import logo from "@/assets/logo.avif";
+import logoWhite from "@/assets/logo-white.png";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -36,7 +36,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="mb-4">
-              <img src={logo} alt="Squad Medical Supplies" className="h-12 w-auto brightness-0 invert" />
+              <img src={logoWhite} alt="Squad Medical Supplies" className="h-12 w-auto" />
             </div>
             <div className="mt-6 flex gap-3">
               {[
