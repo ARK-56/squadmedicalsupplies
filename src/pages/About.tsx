@@ -51,7 +51,7 @@ const About = () => {
       {/* Hero */}
       <section className="border-b border-border bg-secondary/30 py-16">
         <div className="container mx-auto px-4 text-center lg:px-8">
-          <img src={logo} alt="Squad Medical Supplies" className="mx-auto mb-6 h-16 w-auto" />
+          <img src={logo} alt="Squad Medical Supplies" className="mx-auto mb-6 h-16 w-auto" loading="lazy" decoding="async" />
           <h1 className="font-display text-4xl font-bold text-foreground md:text-5xl">About Squad Medical Supplies</h1>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
             Your trusted partner in durable medical equipment, committed to improving lives through quality healthcare solutions.

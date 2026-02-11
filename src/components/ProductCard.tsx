@@ -19,6 +19,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           alt={product.name}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
+          decoding="async"
         />
         {product.isSale && discount > 0 && (
           <span className="absolute left-3 top-3 rounded-md bg-badge-sale px-2.5 py-1 text-xs font-semibold text-primary-foreground">

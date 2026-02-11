@@ -65,6 +65,8 @@ const HeroSection = () => {
                 src={heroImage}
                 alt="Premium medical equipment - wheelchair and hospital bed in clinical setting"
                 className="h-full w-full object-cover"
+                fetchPriority="high"
+                decoding="async"
               />
             </div>
             {/* Floating badge */}

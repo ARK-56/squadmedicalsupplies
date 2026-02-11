@@ -160,7 +160,7 @@ const AdminProducts = ({ products, onRefresh }: Props) => {
         {paginated.map((p) => (
           <div key={p.id} className="flex items-center justify-between rounded-lg border border-border bg-card p-4">
             <div className="flex items-center gap-3">
-              {p.image_url && <img src={p.image_url} alt={p.name} className="h-12 w-12 rounded-md object-cover" />}
+              {p.image_url && <img src={p.image_url} alt={p.name} className="h-12 w-12 rounded-md object-cover" loading="lazy" decoding="async" />}
               <div>
                 <p className="text-sm font-semibold text-foreground">{p.name}</p>
                 <p className="text-xs text-muted-foreground">${p.price} · {p.category} · {p.hcpcs_code}</p>

@@ -52,7 +52,7 @@ const BlogPost = () => {
       <section className="py-12">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="mx-auto max-w-3xl">
-            <img src={post.image} alt={post.title} className="mb-8 w-full rounded-xl object-cover" />
+            <img src={post.image} alt={post.title} className="mb-8 w-full rounded-xl object-cover" loading="lazy" decoding="async" />
             <div className="prose prose-lg max-w-none text-foreground prose-headings:font-display prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground prose-ul:text-muted-foreground">
               {post.content.split("\n\n").map((paragraph, i) => {
                 if (paragraph.startsWith("## ")) {

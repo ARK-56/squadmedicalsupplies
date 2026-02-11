@@ -42,7 +42,7 @@ const CartDrawer = () => {
               {items.map((item) => (
                 <div key={item.id} className="flex gap-3 rounded-lg border border-border p-3">
                   {item.product?.image_url && (
-                    <img src={item.product.image_url} alt={item.product?.name} className="h-16 w-16 rounded-md object-cover" />
+                    <img src={item.product.image_url} alt={item.product?.name} className="h-16 w-16 rounded-md object-cover" loading="lazy" decoding="async" />
                   )}
                   <div className="flex flex-1 flex-col">
                     <p className="text-sm font-semibold text-foreground">{item.product?.name}</p>

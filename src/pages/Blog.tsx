@@ -98,7 +98,7 @@ const Blog = () => {
                   className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card transition-all hover:shadow-card-hover"
                 >
                   <div className="aspect-[16/10] overflow-hidden">
-                    <img src={post.image} alt={post.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                    <img src={post.image} alt={post.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" />
                   </div>
                   <div className="flex flex-1 flex-col p-6">
                     <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">

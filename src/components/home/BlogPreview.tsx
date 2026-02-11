@@ -36,6 +36,7 @@ const BlogPreview = () => {
                     alt={post.title}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-5">
