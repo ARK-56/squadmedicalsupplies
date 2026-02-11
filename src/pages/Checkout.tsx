@@ -52,10 +52,7 @@ const Checkout = () => {
     setLoading(true);
 
     try {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const token = sessionData?.session?.access_token;
-
-      const res = await supabase.functions.invoke("validate-order", {
+      const res = await supabase.functions.invoke("create-checkout", {
         body: {
           shipping_name: form.name.trim(),
           shipping_address: form.address.trim(),
@@ -72,10 +69,11 @@ const Checkout = () => {
         return;
       }
 
-      // Clear local cart state
+      // Clear local cart state and redirect to Stripe
       await clearCart();
-      toast({ title: "Order placed!", description: `Order #${res.data.order_id.slice(0, 8)} has been placed successfully.` });
-      navigate("/");
+      if (res.data?.url) {
+        window.location.href = res.data.url;
+      }
     } catch {
       toast({ title: "Error", description: "Something went wrong", variant: "destructive" });
     } finally {
@@ -123,7 +121,7 @@ const Checkout = () => {
             ))}
             <button type="submit" disabled={loading}
               className="w-full rounded-lg bg-primary py-3.5 font-display text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50">
-              {loading ? "Placing Order..." : `Place Order — $${totalPrice.toLocaleString()}.00`}
+              {loading ? "Redirecting to Payment..." : `Pay — $${totalPrice.toLocaleString()}.00`}
             </button>
           </motion.form>
 
