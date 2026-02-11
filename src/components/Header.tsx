@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import CartDrawer from "./CartDrawer";
 import ContactDialog from "./ContactDialog";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.avif";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
