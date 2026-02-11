@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Trash2, Plus, Star } from "lucide-react";
+import { Trash2, Plus, Star, Search } from "lucide-react";
 import Layout from "@/components/Layout";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -43,6 +43,13 @@ const emptyProduct = {
   is_sale: false, colors: [] as string[], sizes: [] as string[],
 };
 
+const emptyReview = {
+  product_id: "",
+  rating: 5,
+  comment: "",
+  display_name: "",
+};
+
 const Admin = () => {
   const { user, isAdmin, loading: authLoading } = useAuth();
   const { toast } = useToast();
@@ -50,8 +57,11 @@ const Admin = () => {
   const [products, setProducts] = useState<DBProduct[]>([]);
   const [reviews, setReviews] = useState<DBReview[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
   const [form, setForm] = useState(emptyProduct);
+  const [reviewForm, setReviewForm] = useState(emptyReview);
   const [submitting, setSubmitting] = useState(false);
+  const [reviewSearch, setReviewSearch] = useState("");
 
   const fetchProducts = async () => {
     const { data } = await supabase.from("products").select("*").order("created_at", { ascending: false });
@@ -84,6 +94,22 @@ const Admin = () => {
     setSubmitting(false);
   };
 
+  const handleAddReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!reviewForm.product_id) { toast({ title: "Select a product", variant: "destructive" }); return; }
+    setSubmitting(true);
+    const { error } = await supabase.from("reviews").insert({
+      product_id: reviewForm.product_id,
+      user_id: user.id,
+      rating: reviewForm.rating,
+      comment: reviewForm.comment,
+      display_name: reviewForm.display_name || "Admin",
+    });
+    if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+    else { toast({ title: "Review added!" }); setReviewForm(emptyReview); setShowReviewForm(false); fetchReviews(); }
+    setSubmitting(false);
+  };
+
   const deleteProduct = async (id: string) => {
     await supabase.from("products").delete().eq("id", id);
     toast({ title: "Product deleted" });
@@ -94,6 +120,16 @@ const Admin = () => {
     await supabase.from("reviews").delete().eq("id", id);
     toast({ title: "Review deleted" });
     fetchReviews();
+  };
+
+  const filteredReviews = reviews.filter((r) => {
+    if (!reviewSearch) return true;
+    const q = reviewSearch.toLowerCase();
+    return (r.display_name?.toLowerCase().includes(q) || r.comment.toLowerCase().includes(q));
+  });
+
+  const getProductName = (productId: string) => {
+    return products.find((p) => p.id === productId)?.name || productId.slice(0, 8);
   };
 
   return (
@@ -151,7 +187,7 @@ const Admin = () => {
                       <option value="white-glove">White Glove</option>
                     </select>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-wrap items-center gap-4">
                     <label className="flex items-center gap-2 text-sm">
                       <input type="checkbox" checked={form.is_prescription_required} onChange={(e) => setForm({ ...form, is_prescription_required: e.target.checked })} className="accent-primary" />
                       Prescription Required
@@ -191,21 +227,78 @@ const Admin = () => {
         )}
 
         {tab === "reviews" && (
-          <div className="space-y-3">
-            {reviews.map((r) => (
-              <div key={r.id} className="flex items-start justify-between rounded-lg border border-border bg-card p-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex">{[1, 2, 3, 4, 5].map((s) => <Star key={s} className={`h-3.5 w-3.5 ${s <= r.rating ? "fill-primary text-primary" : "fill-muted text-muted"}`} />)}</div>
-                    <span className="text-sm font-semibold text-foreground">{r.display_name || "Anonymous"}</span>
-                    <span className="text-xs text-muted-foreground">{new Date(r.created_at).toLocaleDateString()}</span>
-                  </div>
-                  <p className="mt-1 text-sm text-muted-foreground">{r.comment}</p>
-                </div>
-                <button onClick={() => deleteReview(r.id)} className="ml-4 shrink-0 text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
+          <div>
+            <div className="mb-6 flex flex-wrap items-center gap-3">
+              <button onClick={() => setShowReviewForm(!showReviewForm)} className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90">
+                <Plus className="h-4 w-4" /> Add Review
+              </button>
+              <div className="relative flex-1 max-w-xs">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  type="text" placeholder="Search reviews..."
+                  value={reviewSearch} onChange={(e) => setReviewSearch(e.target.value)}
+                  className="w-full rounded-lg border border-border bg-background pl-9 pr-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                />
               </div>
-            ))}
-            {reviews.length === 0 && <p className="text-sm text-muted-foreground">No reviews yet.</p>}
+            </div>
+
+            {showReviewForm && (
+              <motion.form initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
+                onSubmit={handleAddReview} className="mb-8 rounded-xl border border-border bg-card p-6">
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-foreground">Product</label>
+                    <select required value={reviewForm.product_id} onChange={(e) => setReviewForm({ ...reviewForm, product_id: e.target.value })}
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground">
+                      <option value="">Select a product...</option>
+                      {products.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-foreground">Display Name</label>
+                    <input type="text" value={reviewForm.display_name} onChange={(e) => setReviewForm({ ...reviewForm, display_name: e.target.value })}
+                      placeholder="Reviewer name" className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-foreground">Rating</label>
+                    <div className="flex gap-1 py-1">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <button key={s} type="button" onClick={() => setReviewForm({ ...reviewForm, rating: s })}>
+                          <Star className={`h-5 w-5 ${s <= reviewForm.rating ? "fill-primary text-primary" : "fill-muted text-muted"}`} />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="mb-1 block text-sm font-medium text-foreground">Comment</label>
+                    <textarea required value={reviewForm.comment} onChange={(e) => setReviewForm({ ...reviewForm, comment: e.target.value })}
+                      rows={3} placeholder="Write review comment..."
+                      className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
+                  </div>
+                </div>
+                <button type="submit" disabled={submitting} className="mt-4 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-50">
+                  {submitting ? "Adding..." : "Add Review"}
+                </button>
+              </motion.form>
+            )}
+
+            <div className="space-y-3">
+              {filteredReviews.map((r) => (
+                <div key={r.id} className="flex items-start justify-between rounded-lg border border-border bg-card p-4">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <div className="flex">{[1, 2, 3, 4, 5].map((s) => <Star key={s} className={`h-3.5 w-3.5 ${s <= r.rating ? "fill-primary text-primary" : "fill-muted text-muted"}`} />)}</div>
+                      <span className="text-sm font-semibold text-foreground">{r.display_name || "Anonymous"}</span>
+                      <span className="text-xs text-muted-foreground">{new Date(r.created_at).toLocaleDateString()}</span>
+                    </div>
+                    <p className="mt-1 text-xs text-primary">Product: {getProductName(r.product_id)}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{r.comment}</p>
+                  </div>
+                  <button onClick={() => deleteReview(r.id)} className="ml-4 shrink-0 text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
+                </div>
+              ))}
+              {filteredReviews.length === 0 && <p className="text-sm text-muted-foreground">No reviews found.</p>}
+            </div>
           </div>
         )}
       </div>

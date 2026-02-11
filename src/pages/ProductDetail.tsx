@@ -46,16 +46,16 @@ const ProductDetail = () => {
           <ArrowLeft className="h-4 w-4" /> Back to Equipment
         </Link>
 
-        <div className="grid gap-12 lg:grid-cols-2">
+        <div className="grid gap-8 md:gap-12 lg:grid-cols-2">
           {/* Image */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="overflow-hidden rounded-2xl bg-muted">
-            <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+            <img src={product.image} alt={product.name} className="h-full w-full object-cover" loading="lazy" />
           </motion.div>
 
           {/* Details */}
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
             <p className="text-xs text-muted-foreground">{product.category}</p>
-            <h1 className="mt-1 font-display text-3xl font-bold text-foreground">{product.name}</h1>
+            <h1 className="mt-1 font-display text-2xl font-bold text-foreground md:text-3xl">{product.name}</h1>
 
             <div className="mt-3 flex items-center gap-2">
               <div className="flex items-center gap-0.5">
@@ -66,8 +66,8 @@ const ProductDetail = () => {
               <span className="text-sm text-muted-foreground">({product.reviewCount} reviews)</span>
             </div>
 
-            <div className="mt-4 flex items-baseline gap-3">
-              <span className="font-display text-3xl font-bold text-foreground">${product.price.toLocaleString()}.00</span>
+            <div className="mt-4 flex flex-wrap items-baseline gap-3">
+              <span className="font-display text-2xl font-bold text-foreground md:text-3xl">${product.price.toLocaleString()}.00</span>
               {product.originalPrice && <span className="text-lg text-muted-foreground line-through">${product.originalPrice.toLocaleString()}.00</span>}
               {discount > 0 && <span className="rounded-md bg-badge-sale px-2 py-0.5 text-xs font-semibold text-primary-foreground">{discount}% OFF</span>}
             </div>
@@ -83,7 +83,7 @@ const ProductDetail = () => {
               ].map(({ label, value }) => (
                 <div key={label} className="rounded-lg bg-secondary p-3">
                   <p className="text-[10px] text-muted-foreground">{label}</p>
-                  <p className="font-display text-sm font-semibold text-foreground">{value}</p>
+                  <p className="font-display text-xs font-semibold text-foreground sm:text-sm">{value}</p>
                 </div>
               ))}
             </div>
@@ -92,7 +92,7 @@ const ProductDetail = () => {
             {product.colors && (
               <div className="mt-6">
                 <p className="mb-2 text-sm font-medium text-foreground">Color: {product.colors[selectedColor]}</p>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {product.colors.map((color, i) => (
                     <button key={color} onClick={() => setSelectedColor(i)}
                       className={`rounded-lg border px-4 py-2 text-sm transition-colors ${selectedColor === i ? "border-primary bg-primary/5 font-medium text-primary" : "border-border text-muted-foreground hover:border-foreground"}`}>
@@ -107,7 +107,7 @@ const ProductDetail = () => {
             {product.sizes && (
               <div className="mt-4">
                 <p className="mb-2 text-sm font-medium text-foreground">Size: {product.sizes[selectedSize]}</p>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {product.sizes.map((size, i) => (
                     <button key={size} onClick={() => setSelectedSize(i)}
                       className={`rounded-lg border px-4 py-2 text-sm transition-colors ${selectedSize === i ? "border-primary bg-primary/5 font-medium text-primary" : "border-border text-muted-foreground hover:border-foreground"}`}>
@@ -129,11 +129,11 @@ const ProductDetail = () => {
             </div>
 
             {/* Actions */}
-            <div className="mt-6 flex flex-col gap-3">
-              <button onClick={handleAddToCart} className="rounded-lg bg-foreground px-6 py-3.5 font-display text-sm font-semibold text-background transition-opacity hover:opacity-90">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <button onClick={handleAddToCart} className="flex-1 rounded-lg bg-foreground px-6 py-3.5 font-display text-sm font-semibold text-background transition-opacity hover:opacity-90">
                 Add to Cart
               </button>
-              <Link to="/checkout" onClick={handleAddToCart} className="rounded-lg border border-border px-6 py-3.5 text-center font-display text-sm font-semibold text-foreground transition-colors hover:bg-secondary">
+              <Link to="/checkout" onClick={handleAddToCart} className="flex-1 rounded-lg border border-border px-6 py-3.5 text-center font-display text-sm font-semibold text-foreground transition-colors hover:bg-secondary">
                 Buy it Now
               </Link>
             </div>
@@ -152,7 +152,7 @@ const ProductDetail = () => {
             {/* Badges */}
             <div className="mt-6 space-y-2">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Truck className="h-4 w-4" />
+                <Truck className="h-4 w-4 shrink-0" />
                 <span>
                   {product.shippingClass === "standard" && "Free shipping on orders over $100"}
                   {product.shippingClass === "ltl-freight" && "LTL Freight shipping — delivery scheduled with you"}
@@ -160,7 +160,7 @@ const ProductDetail = () => {
                 </span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <ShieldCheck className="h-4 w-4" />
+                <ShieldCheck className="h-4 w-4 shrink-0" />
                 <span>{product.warrantyType} warranty included</span>
               </div>
             </div>

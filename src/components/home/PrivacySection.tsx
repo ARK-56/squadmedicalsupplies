@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ShieldCheck, Lock, Globe } from "lucide-react";
+import { Link } from "react-router-dom";
 import privacyImage from "@/assets/privacy-section.jpg";
 
 const PrivacySection = () => {
@@ -37,9 +38,9 @@ const PrivacySection = () => {
                 </li>
               ))}
             </ul>
-            <button className="mt-8 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
+            <Link to="/about" className="mt-8 inline-block rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
               Learn More
-            </button>
+            </Link>
           </motion.div>
 
           <motion.div
@@ -53,6 +54,7 @@ const PrivacySection = () => {
                 src={privacyImage}
                 alt="Healthcare professional ensuring patient data privacy"
                 className="h-full w-full object-cover"
+                loading="lazy"
               />
             </div>
           </motion.div>
