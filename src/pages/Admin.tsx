@@ -7,6 +7,7 @@ import AdminProducts from "@/components/admin/AdminProducts";
 import AdminReviews from "@/components/admin/AdminReviews";
 import AdminOrders from "@/components/admin/AdminOrders";
 import AdminNewsletter from "@/components/admin/AdminNewsletter";
+import AdminInquiries from "@/components/admin/AdminInquiries";
 
 interface DBProduct {
   id: string; name: string; price: number; original_price: number | null;
@@ -23,6 +24,7 @@ interface DBReview {
 
 const tabs = [
   { key: "products", label: "Products" },
+  { key: "inquiries", label: "Inquiries" },
   { key: "reviews", label: "Reviews" },
   { key: "orders", label: "Orders" },
   { key: "newsletter", label: "Newsletter" },
@@ -68,6 +70,7 @@ const Admin = () => {
         </div>
 
         {tab === "products" && <AdminProducts products={products} onRefresh={fetchProducts} />}
+        {tab === "inquiries" && <AdminInquiries />}
         {tab === "reviews" && <AdminReviews reviews={reviews} products={products} onRefresh={fetchReviews} />}
         {tab === "orders" && <AdminOrders />}
         {tab === "newsletter" && <AdminNewsletter />}

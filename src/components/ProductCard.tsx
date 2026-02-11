@@ -3,10 +3,6 @@ import { Star } from "lucide-react";
 import type { Product } from "@/data/products";
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
-
   return (
     <Link
       to={`/equipment/${product.id}`}
@@ -21,11 +17,6 @@ const ProductCard = ({ product }: { product: Product }) => {
           loading="lazy"
           decoding="async"
         />
-        {product.isSale && discount > 0 && (
-          <span className="absolute left-3 top-3 rounded-md bg-badge-sale px-2.5 py-1 text-xs font-semibold text-primary-foreground">
-            Sale {discount}%
-          </span>
-        )}
         {product.isPrescriptionRequired && (
           <span className="absolute right-3 top-3 rounded-md bg-primary/90 px-2 py-1 text-[10px] font-semibold text-primary-foreground">
             Rx Required
@@ -48,16 +39,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         </div>
         <h3 className="font-display text-sm font-semibold text-foreground">{product.name}</h3>
         <p className="text-xs text-muted-foreground">HCPCS: {product.hcpcsCode}</p>
-        <div className="mt-auto flex items-baseline gap-2 pt-2">
-          <span className="font-display text-lg font-bold text-foreground">
-            ${product.price.toLocaleString()}.00
-          </span>
-          {product.originalPrice && (
-            <span className="text-sm text-muted-foreground line-through">
-              ${product.originalPrice.toLocaleString()}.00
-            </span>
-          )}
-        </div>
+        <p className="mt-auto pt-2 text-xs font-medium text-primary">View Details →</p>
       </div>
     </Link>
   );

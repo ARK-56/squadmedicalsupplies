@@ -1,19 +1,16 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Star, Truck, ShieldCheck, FileText, Minus, Plus, ArrowLeft } from "lucide-react";
+import { Star, Truck, ShieldCheck, FileText, ArrowLeft } from "lucide-react";
 import Layout from "@/components/Layout";
 import { products } from "@/data/products";
-import { useCart } from "@/contexts/CartContext";
 import ProductReviews from "@/components/ProductReviews";
+import InquiryForm from "@/components/InquiryForm";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const product = products.find((p) => p.id === id);
-  const [quantity, setQuantity] = useState(1);
-  const [selectedColor, setSelectedColor] = useState(0);
-  const [selectedSize, setSelectedSize] = useState(0);
-  const { addToCart } = useCart();
+  const [showInquiry, setShowInquiry] = useState(false);
 
   if (!product) {
     return (
@@ -26,18 +23,6 @@ const ProductDetail = () => {
     );
   }
 
-  const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
-
-  const handleAddToCart = () => {
-    addToCart(
-      product.id,
-      quantity,
-      product.colors?.[selectedColor],
-      product.sizes?.[selectedSize]
-    );
-  };
 
   return (
     <Layout>
@@ -66,11 +51,6 @@ const ProductDetail = () => {
               <span className="text-sm text-muted-foreground">({product.reviewCount} reviews)</span>
             </div>
 
-            <div className="mt-4 flex flex-wrap items-baseline gap-3">
-              <span className="font-display text-2xl font-bold text-foreground md:text-3xl">${product.price.toLocaleString()}.00</span>
-              {product.originalPrice && <span className="text-lg text-muted-foreground line-through">${product.originalPrice.toLocaleString()}.00</span>}
-              {discount > 0 && <span className="rounded-md bg-badge-sale px-2 py-0.5 text-xs font-semibold text-primary-foreground">{discount}% OFF</span>}
-            </div>
 
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{product.description}</p>
 
@@ -91,13 +71,10 @@ const ProductDetail = () => {
             {/* Colors */}
             {product.colors && (
               <div className="mt-6">
-                <p className="mb-2 text-sm font-medium text-foreground">Color: {product.colors[selectedColor]}</p>
+                <p className="mb-2 text-sm font-medium text-foreground">Available Colors</p>
                 <div className="flex flex-wrap gap-2">
-                  {product.colors.map((color, i) => (
-                    <button key={color} onClick={() => setSelectedColor(i)}
-                      className={`rounded-lg border px-4 py-2 text-sm transition-colors ${selectedColor === i ? "border-primary bg-primary/5 font-medium text-primary" : "border-border text-muted-foreground hover:border-foreground"}`}>
-                      {color}
-                    </button>
+                  {product.colors.map((color) => (
+                    <span key={color} className="rounded-lg border border-border px-4 py-2 text-sm text-muted-foreground">{color}</span>
                   ))}
                 </div>
               </div>
@@ -106,37 +83,29 @@ const ProductDetail = () => {
             {/* Sizes */}
             {product.sizes && (
               <div className="mt-4">
-                <p className="mb-2 text-sm font-medium text-foreground">Size: {product.sizes[selectedSize]}</p>
+                <p className="mb-2 text-sm font-medium text-foreground">Available Sizes</p>
                 <div className="flex flex-wrap gap-2">
-                  {product.sizes.map((size, i) => (
-                    <button key={size} onClick={() => setSelectedSize(i)}
-                      className={`rounded-lg border px-4 py-2 text-sm transition-colors ${selectedSize === i ? "border-primary bg-primary/5 font-medium text-primary" : "border-border text-muted-foreground hover:border-foreground"}`}>
-                      {size}
-                    </button>
+                  {product.sizes.map((size) => (
+                    <span key={size} className="rounded-lg border border-border px-4 py-2 text-sm text-muted-foreground">{size}</span>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Quantity */}
+            {/* Actions */}
             <div className="mt-6">
-              <p className="mb-2 text-sm font-medium text-foreground">Quantity</p>
-              <div className="inline-flex items-center rounded-lg border border-border">
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-3 py-2 text-muted-foreground hover:text-foreground"><Minus className="h-4 w-4" /></button>
-                <span className="min-w-[40px] text-center text-sm font-medium text-foreground">{quantity}</span>
-                <button onClick={() => setQuantity(quantity + 1)} className="px-3 py-2 text-muted-foreground hover:text-foreground"><Plus className="h-4 w-4" /></button>
-              </div>
+              <button onClick={() => setShowInquiry(!showInquiry)}
+                className="w-full rounded-lg bg-primary px-6 py-3.5 font-display text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
+                {showInquiry ? "Hide Inquiry Form" : "Request This Product"}
+              </button>
             </div>
 
-            {/* Actions */}
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <button onClick={handleAddToCart} className="flex-1 rounded-lg bg-foreground px-6 py-3.5 font-display text-sm font-semibold text-background transition-opacity hover:opacity-90">
-                Add to Cart
-              </button>
-              <Link to="/checkout" onClick={handleAddToCart} className="flex-1 rounded-lg border border-border px-6 py-3.5 text-center font-display text-sm font-semibold text-foreground transition-colors hover:bg-secondary">
-                Buy it Now
-              </Link>
-            </div>
+            {showInquiry && (
+              <div className="mt-6 rounded-xl border border-border bg-card p-6">
+                <h3 className="mb-4 font-display text-lg font-semibold text-foreground">Order Inquiry</h3>
+                <InquiryForm productId={product.id} productName={product.name} onSuccess={() => setShowInquiry(false)} />
+              </div>
+            )}
 
             {/* Prescription Warning */}
             {product.isPrescriptionRequired && (
