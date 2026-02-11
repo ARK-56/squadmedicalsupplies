@@ -2,10 +2,32 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Linkedin, Facebook, Instagram } from "lucide-react";
 import ContactDialog from "./ContactDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleNewsletter = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      toast({ title: "Please enter a valid email", variant: "destructive" });
+      return;
+    }
+    setSubmitting(true);
+    const { error } = await supabase.from("newsletter_subscribers").insert({ email: email.trim().toLowerCase() });
+    if (error) {
+      if (error.code === "23505") toast({ title: "Already subscribed!", description: "This email is already on our list." });
+      else toast({ title: "Error", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Subscribed!", description: "You've been added to our newsletter." });
+      setEmail("");
+    }
+    setSubmitting(false);
+  };
 
   return (
     <footer className="bg-navy text-navy-foreground">
@@ -56,11 +78,13 @@ const Footer = () => {
           <div>
             <h4 className="mb-2 text-sm font-semibold">Join our newsletter</h4>
             <p className="mb-4 text-xs opacity-60">Stay up to date on new products and offers</p>
-            <div className="flex overflow-hidden rounded-lg border border-navy-foreground/20">
+            <form onSubmit={handleNewsletter} className="flex overflow-hidden rounded-lg border border-navy-foreground/20">
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email here"
                 className="flex-1 bg-transparent px-3 py-2 text-sm text-navy-foreground placeholder:opacity-40 focus:outline-none" />
-              <button className="bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">Join</button>
-            </div>
+              <button type="submit" disabled={submitting} className="bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50">
+                {submitting ? "..." : "Join"}
+              </button>
+            </form>
             <p className="mt-2 text-[10px] opacity-40">By subscribing you agree to our Privacy Policy.</p>
           </div>
         </div>
