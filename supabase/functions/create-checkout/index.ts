@@ -145,17 +145,21 @@ serve(async (req) => {
     }
 
     // Build line items for Stripe Checkout using price_data (dynamic cart)
-    const stripeLineItems = cartItems.map((item: any) => ({
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: item.product.name,
-          ...(item.product.image_url ? { images: [item.product.image_url] } : {}),
+    const stripeLineItems = cartItems.map((item: any) => {
+      const imageUrl = item.product.image_url;
+      const hasValidUrl = imageUrl && (imageUrl.startsWith("http://") || imageUrl.startsWith("https://"));
+      return {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.product.name,
+            ...(hasValidUrl ? { images: [imageUrl] } : {}),
+          },
+          unit_amount: Math.round(item.product.price * 100),
         },
-        unit_amount: Math.round(item.product.price * 100), // Convert to cents
-      },
-      quantity: item.quantity,
-    }));
+        quantity: item.quantity,
+      };
+    });
 
     const origin = req.headers.get("origin") || "https://squadmedicalsupplies.lovable.app";
 
