@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, MessageSquare, Trash2 } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, MessageSquare, Trash2, FileText, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Inquiry {
@@ -18,6 +18,7 @@ interface Inquiry {
   product_name: string | null;
   status: string;
   created_at: string;
+  prescription_url: string | null;
 }
 
 const ITEMS_PER_PAGE = 10;
@@ -125,6 +126,22 @@ const AdminInquiries = () => {
                   <div className="mt-3">
                     <p className="text-xs text-muted-foreground">Message</p>
                     <p className="text-sm text-foreground">{i.message}</p>
+                  </div>
+                )}
+                {i.prescription_url && (
+                  <div className="mt-3">
+                    <p className="text-xs text-muted-foreground mb-1">Prescription (RX)</p>
+                    <button
+                      onClick={async () => {
+                        const { data } = await supabase.storage.from("prescriptions").createSignedUrl(i.prescription_url!, 3600);
+                        if (data?.signedUrl) window.open(data.signedUrl, "_blank");
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors"
+                    >
+                      <FileText className="h-3.5 w-3.5" />
+                      View Prescription
+                      <ExternalLink className="h-3 w-3" />
+                    </button>
                   </div>
                 )}
                 <div className="mt-4 flex flex-wrap items-center gap-2">

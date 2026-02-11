@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Upload, X, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -8,9 +9,14 @@ interface InquiryFormProps {
   onSuccess?: () => void;
 }
 
+const ALLOWED_FILE_TYPES = ["application/pdf", "image/jpeg", "image/png", "image/webp"];
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
 const InquiryForm = ({ productId, productName, onSuccess }: InquiryFormProps) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [rxFile, setRxFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     first_name: "", last_name: "", phone: "", address: "",
     medicare_id: "", dob_month: "", dob_day: "", dob_year: "",
@@ -58,6 +64,23 @@ const InquiryForm = ({ productId, productName, onSuccess }: InquiryFormProps) =>
     if (!validate()) return;
     setLoading(true);
 
+    // Upload prescription file if provided
+    let prescriptionUrl: string | null = null;
+    if (rxFile) {
+      const fileExt = rxFile.name.split(".").pop();
+      const filePath = `${crypto.randomUUID()}.${fileExt}`;
+      const { error: uploadError } = await supabase.storage
+        .from("prescriptions")
+        .upload(filePath, rxFile, { contentType: rxFile.type });
+
+      if (uploadError) {
+        toast({ title: "Upload Error", description: "Failed to upload prescription file.", variant: "destructive" });
+        setLoading(false);
+        return;
+      }
+      prescriptionUrl = filePath;
+    }
+
     const { error } = await supabase.from("inquiries").insert({
       first_name: form.first_name.trim(),
       last_name: form.last_name.trim(),
@@ -71,6 +94,7 @@ const InquiryForm = ({ productId, productName, onSuccess }: InquiryFormProps) =>
       message: form.message.trim() || null,
       product_id: productId || null,
       product_name: productName || null,
+      prescription_url: prescriptionUrl,
     } as any);
 
     setLoading(false);
@@ -80,6 +104,7 @@ const InquiryForm = ({ productId, productName, onSuccess }: InquiryFormProps) =>
     }
     toast({ title: "Inquiry Submitted!", description: "We'll be in touch soon." });
     setForm({ first_name: "", last_name: "", phone: "", address: "", medicare_id: "", dob_month: "", dob_day: "", dob_year: "", zip_code: "", message: "" });
+    setRxFile(null);
     onSuccess?.();
   };
 
@@ -161,6 +186,50 @@ const InquiryForm = ({ productId, productName, onSuccess }: InquiryFormProps) =>
         <label className="mb-1.5 block text-sm font-medium text-foreground">Message</label>
         <textarea placeholder="Any additional details..." maxLength={1000} rows={3} value={form.message} onChange={(e) => handleChange("message", e.target.value)}
           className={`${inputClass("message")} min-h-[80px]`} />
+      </div>
+
+      {/* Prescription Upload */}
+      <div>
+        <label className="mb-1.5 block text-sm font-medium text-foreground">Prescription (RX) Upload</label>
+        <p className="mb-2 text-xs text-muted-foreground">Upload your prescription if available (PDF, JPG, PNG — max 10MB)</p>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".pdf,.jpg,.jpeg,.png,.webp"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+              toast({ title: "Invalid file type", description: "Please upload a PDF, JPG, or PNG file.", variant: "destructive" });
+              return;
+            }
+            if (file.size > MAX_FILE_SIZE) {
+              toast({ title: "File too large", description: "Maximum file size is 10MB.", variant: "destructive" });
+              return;
+            }
+            setRxFile(file);
+          }}
+        />
+        {rxFile ? (
+          <div className="flex items-center gap-3 rounded-lg border border-primary/20 bg-primary/5 p-3">
+            <FileText className="h-5 w-5 shrink-0 text-primary" />
+            <div className="flex-1 min-w-0">
+              <p className="truncate text-sm font-medium text-foreground">{rxFile.name}</p>
+              <p className="text-xs text-muted-foreground">{(rxFile.size / 1024).toFixed(0)} KB</p>
+            </div>
+            <button type="button" onClick={() => { setRxFile(null); if (fileInputRef.current) fileInputRef.current.value = ""; }}
+              className="rounded-md p-1 text-muted-foreground hover:bg-destructive/10 hover:text-destructive">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        ) : (
+          <button type="button" onClick={() => fileInputRef.current?.click()}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border py-4 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+            <Upload className="h-4 w-4" />
+            Choose File
+          </button>
+        )}
       </div>
 
       <div className="rounded-lg bg-muted p-4 text-xs text-muted-foreground leading-relaxed">
