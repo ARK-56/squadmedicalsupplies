@@ -20,10 +20,9 @@ const ContactDialog = ({ children }: { children: React.ReactNode }) => {
       toast({ title: "Message sent!", description: "We'll get back to you shortly." });
       setForm({ name: "", email: "", message: "" });
       setOpen(false);
-    } catch {
-      toast({ title: "Message sent!", description: "We'll get back to you shortly." });
-      setForm({ name: "", email: "", message: "" });
-      setOpen(false);
+    } catch (error) {
+      console.error("Contact form error:", error);
+      toast({ title: "Error sending message", description: "Please try again or email us directly.", variant: "destructive" });
     } finally {
       setSending(false);
     }
