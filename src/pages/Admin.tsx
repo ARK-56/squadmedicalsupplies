@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import AdminProducts from "@/components/admin/AdminProducts";
 import AdminReviews from "@/components/admin/AdminReviews";
-import AdminOrders from "@/components/admin/AdminOrders";
+
 import AdminNewsletter from "@/components/admin/AdminNewsletter";
 import AdminInquiries from "@/components/admin/AdminInquiries";
 
@@ -26,7 +26,6 @@ const tabs = [
   { key: "products", label: "Products" },
   { key: "inquiries", label: "Inquiries" },
   { key: "reviews", label: "Reviews" },
-  { key: "orders", label: "Orders" },
   { key: "newsletter", label: "Newsletter" },
 ] as const;
 
@@ -57,7 +56,7 @@ const Admin = () => {
     <Layout>
       <div className="container mx-auto px-4 py-8 lg:px-8">
         <h1 className="mb-2 font-display text-3xl font-bold text-foreground">Admin Dashboard</h1>
-        <p className="mb-8 text-muted-foreground">Manage products, reviews, orders, and newsletter subscribers</p>
+        <p className="mb-8 text-muted-foreground">Manage products, inquiries, reviews, and newsletter subscribers</p>
 
         {/* Tabs */}
         <div className="mb-6 flex flex-wrap gap-2">
@@ -72,7 +71,7 @@ const Admin = () => {
         {tab === "products" && <AdminProducts products={products} onRefresh={fetchProducts} />}
         {tab === "inquiries" && <AdminInquiries />}
         {tab === "reviews" && <AdminReviews reviews={reviews} products={products} onRefresh={fetchReviews} />}
-        {tab === "orders" && <AdminOrders />}
+        
         {tab === "newsletter" && <AdminNewsletter />}
       </div>
     </Layout>
