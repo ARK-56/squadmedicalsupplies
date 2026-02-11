@@ -12,8 +12,8 @@ const PrivacySection = () => {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+            transition={{ duration: 0.6 }}>
+
             <span className="mb-3 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase text-primary">
               Privacy
             </span>
@@ -26,17 +26,17 @@ const PrivacySection = () => {
             </p>
             <ul className="mt-6 space-y-4">
               {[
-                { icon: ShieldCheck, text: "Your health data stays private" },
-                { icon: Globe, text: "We comply with HIPAA and global privacy standards" },
-                { icon: Lock, text: "You can trust Squad Medical to safeguard your information" },
-              ].map(({ icon: Icon, text }) => (
-                <li key={text} className="flex items-center gap-3">
+              { icon: ShieldCheck, text: "Your health data stays private" },
+              { icon: Globe, text: "We comply with HIPAA and global privacy standards" },
+              { icon: Lock, text: "You can trust Squad Medical to safeguard your information" }].
+              map(({ icon: Icon, text }) =>
+              <li key={text} className="flex items-center gap-3">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                     <Icon className="h-4 w-4 text-primary" />
                   </div>
                   <span className="text-sm text-foreground">{text}</span>
                 </li>
-              ))}
+              )}
             </ul>
             <Link to="/about" className="mt-8 inline-block rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
               Learn More
@@ -47,22 +47,22 @@ const PrivacySection = () => {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
+            transition={{ duration: 0.6, delay: 0.2 }}>
+
             <div className="overflow-hidden rounded-2xl">
               <img
-                src={privacyImage}
+
                 alt="Healthcare professional ensuring patient data privacy"
                 className="h-full w-full object-cover"
                 loading="lazy"
-                decoding="async"
-              />
+                decoding="async" src="/lovable-uploads/73c01dff-fb73-43ab-a236-14fd66fc9694.webp" />
+
             </div>
           </motion.div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default PrivacySection;
