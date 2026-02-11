@@ -20,8 +20,8 @@ const Footer = () => {
     setSubmitting(true);
     const { error } = await supabase.from("newsletter_subscribers").insert({ email: email.trim().toLowerCase() });
     if (error) {
-      if (error.code === "23505") toast({ title: "Already subscribed!", description: "This email is already on our list." });
-      else toast({ title: "Error", description: error.message, variant: "destructive" });
+      if (error.code === "23505") toast({ title: "Already subscribed!", description: "This email is already on our list." });else
+      toast({ title: "Error", description: error.message, variant: "destructive" });
     } else {
       toast({ title: "Subscribed!", description: "You've been added to our newsletter." });
       setEmail("");
@@ -36,18 +36,18 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="mb-4">
-              <img src={logoWhite} alt="Squad Medical Supplies" className="h-16 w-auto" />
+              <img src={logoWhite} alt="Squad Medical Supplies" className="h-32 w-auto" />
             </div>
             <div className="mt-6 flex gap-3">
               {[
-                { icon: Linkedin, label: "LinkedIn" },
-                { icon: Facebook, label: "Facebook" },
-                { icon: Instagram, label: "Instagram" },
-              ].map(({ icon: Icon, label }) => (
-                <a key={label} href="#" aria-label={label} className="flex h-9 w-9 items-center justify-center rounded-full border border-navy-foreground/20 opacity-70 transition-opacity hover:opacity-100">
+              { icon: Linkedin, label: "LinkedIn" },
+              { icon: Facebook, label: "Facebook" },
+              { icon: Instagram, label: "Instagram" }].
+              map(({ icon: Icon, label }) =>
+              <a key={label} href="#" aria-label={label} className="flex h-9 w-9 items-center justify-center rounded-full border border-navy-foreground/20 opacity-70 transition-opacity hover:opacity-100">
                   <Icon className="h-4 w-4" />
                 </a>
-              ))}
+              )}
             </div>
           </div>
 
@@ -80,7 +80,7 @@ const Footer = () => {
             <p className="mb-4 text-xs opacity-60">Stay up to date on new products and offers</p>
             <form onSubmit={handleNewsletter} className="flex overflow-hidden rounded-lg border border-navy-foreground/20">
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email here"
-                className="flex-1 bg-transparent px-3 py-2 text-sm text-navy-foreground placeholder:opacity-40 focus:outline-none" />
+              className="flex-1 bg-transparent px-3 py-2 text-sm text-navy-foreground placeholder:opacity-40 focus:outline-none" />
               <button type="submit" disabled={submitting} className="bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50">
                 {submitting ? "..." : "Join"}
               </button>
@@ -108,8 +108,8 @@ const Footer = () => {
           SQUAD MEDICAL SUPPLIES PROVIDES ACCESS TO DURABLE MEDICAL EQUIPMENT THROUGH CERTIFIED MANUFACTURERS AND DISTRIBUTORS. IT IS NOT A MEDICAL PROVIDER AND DOES NOT OFFER MEDICAL ADVICE, DIAGNOSIS, OR TREATMENT. ALL PRODUCT INFORMATION IS FOR INFORMATIONAL PURPOSES ONLY AND SHOULD BE REVIEWED WITH A LICENSED HEALTHCARE PROFESSIONAL. PRODUCT AVAILABILITY AND SHIPPING TIMES MAY VARY BY LOCATION AND INDIVIDUAL CIRCUMSTANCES. BY SUBMITTING YOUR CONTACT INFORMATION, YOU CONSENT TO RECEIVE COMMUNICATIONS FROM SQUAD MEDICAL SUPPLIES.
         </p>
       </div>
-    </footer>
-  );
+    </footer>);
+
 };
 
 export default Footer;
