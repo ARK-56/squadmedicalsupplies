@@ -8,11 +8,13 @@ import logoWhite from "@/assets/logo-white.png";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleNewsletter = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (honeypot) return; // Bot detected
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       toast({ title: "Please enter a valid email", variant: "destructive" });
       return;
@@ -78,7 +80,17 @@ const Footer = () => {
           <div>
             <h4 className="mb-2 text-sm font-semibold">Join our newsletter</h4>
             <p className="mb-4 text-xs opacity-60">Stay up to date on new products and offers</p>
-            <form onSubmit={handleNewsletter} className="flex overflow-hidden rounded-lg border border-navy-foreground/20">
+            <form onSubmit={handleNewsletter} className="flex flex-wrap overflow-hidden rounded-lg border border-navy-foreground/20">
+              <input
+                type="text"
+                name="company"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                className="absolute -left-[9999px] opacity-0"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email here"
               className="flex-1 bg-transparent px-3 py-2 text-sm text-navy-foreground placeholder:opacity-40 focus:outline-none" />
               <button type="submit" disabled={submitting} className="bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50">
